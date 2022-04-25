@@ -5,12 +5,21 @@ import Registrar from './pages/Registrar';
 import NuevoPassword from './pages/NuevoPassword';
 import OlvidePassword from './pages/OlvidePassword';
 import ConfirmarCuenta from './pages/ConfirmarCuenta';
+import {AuthProvider} from './context/AuthProvider';
+import {ProyectoProvider} from './context/ProyectoProvider';
+import Proyectos from './pages/Proyectos';
+import RutaProtegida from './layouts/RutaProtegida';
+import NuevoProyecto from './pages/NuevoProyecto';
 
 function App() {
+
+  //console.log(import.meta.env.VITE_BACKEND_URL);
 
   return (
     
     <BrowserRouter>
+      <AuthProvider>
+        <ProyectoProvider>
       <Routes>
 {/* *****Area PUBLICA ********/}   
      <Route path="/" element={<AuthLayout />}>
@@ -20,9 +29,15 @@ function App() {
         <Route path="olvide-password/:token" element={<NuevoPassword />} />
         <Route path="confirmar/:id" element={<ConfirmarCuenta />} />
         </Route>
-         
+{/* *****Area PRIVADA ********/}
+        <Route path="/proyectos" element={<RutaProtegida />}>
+          <Route index element={<Proyectos />} />
+          <Route path="crear-proyecto" element={<NuevoProyecto />} />
+        </Route>
+    
       </Routes>
-
+      </ProyectoProvider>
+      </AuthProvider>
     </BrowserRouter>
   
   )
